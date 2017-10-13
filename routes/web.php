@@ -21,8 +21,33 @@ Route::get('/cats/{id}', function ($id) {
 })->where('id', '[0-9]+');
 
 Route::get('/about', function () {
-    $corp = 'Iviettech';
+    $corp1 = 'Iviettech';
+    $corp2 = 'Iviettech';
+    $corp3 = 'Iviettech';
     //return view('about', ['corp'=> $corp]);
-    //return view('about')->with('corp', $corp);
-    return view('about', compact('corp'));
+//    return view('about')->with('corp1', $corp1)
+//        ->with('corp2', $corp2)
+//        ->with('corp3', $corp3);
+    return view('about', compact('corp1', 'corp2', 'corp3'));
+});
+
+Route::get('/cats/breeds/{name}', function ($name) {
+    $breed = Furbook\Breed::with('cats')
+    ->whereName($name)
+    ->first();
+    //dd($breed);
+    return view('cats.index')
+        ->with('breed', $breed)
+        ->with('cats', $breed->cats);
+});
+
+Route::get('/cats/{id}', function ($id) {
+    $cat = Furbook\Cat::find($id);
+    //dd($cat);
+    return view('cats.show')
+        ->with('cat', $cat);
+});
+Route::get('/test', function () {
+    dd(Furbook\Breed::all()->pluck('id', 'name'));
+    //return view('partials.forms.cat');
 });
