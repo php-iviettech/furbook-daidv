@@ -22,7 +22,7 @@ Route::get('/cats/{id}', function ($id) {
 
 Route::get('/about', function () {
     $corp = 'Iviettech';
-    return view('about', ['corp'=> $corp]);
+    //return view('about', ['corp'=> $corp]);
     //return view('about')->with('corp', $corp);
-    //return view('about')->compact(['corp']);
+    return view('about', compact('corp'));
 });
