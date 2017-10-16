@@ -1,7 +1,9 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: daidv
- * Date: 10/13/2017
- * Time: 7:44 PM
- */
+@extends('layouts.master')
+@section('header')
+    <h2>Add a new cat</h2>
+@stop
+@section('content')
+    {!! Form::open(['url' => '/cats']) !!}
+    @include('partials.forms.cat')
+    {!! Form::close() !!}
+@stop
