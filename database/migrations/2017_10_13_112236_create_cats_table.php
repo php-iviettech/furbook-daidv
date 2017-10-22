@@ -20,6 +20,7 @@ class CreateCatsTable extends Migration
             $table->integer('breed_id')->unsigned();
             $table->foreign('breed_id')->references('id')->on('breeds');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

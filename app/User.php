@@ -26,4 +26,26 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    /**
+     * @return array
+     */
+    public function scopeGmail($query)
+    {
+        $query->where('email', 'like', '%gmail%');
+    }
+
+    /**
+     * @return array
+     */
+    public function scopeEmail($query, $mail)
+    {
+        $query->where('email', 'like', "%$mail%");
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('Furbook\Role');
+    }
 }

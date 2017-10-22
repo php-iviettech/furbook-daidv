@@ -3,7 +3,10 @@
 namespace Furbook\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Furbook\User;
+use Furbook\Role;
 use Furbook\Cat;
+use Furbook\Breed;
 
 class CatController extends Controller
 {
@@ -14,6 +17,53 @@ class CatController extends Controller
      */
     public function index()
     {
+        $user = User::with('roles')->find(1);
+        $user->roles()->attach([1, 2]);
+        dd($user->roles);
+        //Saving data method firstOrCreate
+        $cat = Cat::firstOrCreate([
+            'name' => 'Tom firstOrCreate',
+            'date_of_birth' => date('Y-m-d'),
+            'breed_id' => 1,
+            'description' => 'Meo tom firstOrCreate'
+        ]);
+        dd($cat);
+        //Saving data by model instance
+        $cat = Cat::find(1);
+        $cat->name = 'Tom model instance';
+        $cat->description = 'Meo tom model instance';
+        $cat->save();
+        dd($cat);
+        //Saving data method create
+        $cat = Cat::create([
+            'name' => 'Tom create',
+            'date_of_birth' => date('Y-m-d'),
+            'breed_id' => 1,
+            'description' => 'Meo tom create'
+        ]);
+        dd($cat);
+        //Saving data method update
+        $cat = Cat::find(1);
+        $cat->update([
+            'name' => 'Tom create',
+            'date_of_birth' => date('Y-m-d'),
+            'breed_id' => 1,
+            'description' => 'Meo tom create'
+        ]);
+        dd($cat);
+        //Saving data method insert
+        $cat = Cat::insert([
+            'name' => 'Tom insert',
+            'date_of_birth' => date('Y-m-d'),
+            'breed_id' => 1,
+            'description' => 'Meo tom insert'
+        ]);
+        dd($cat);
+        //retieving data
+        $cat = Cat::find(1);
+        
+        
+        
         $cats = Cat::all();
         return view('cats.index')->with('cats', $cats);
     }
