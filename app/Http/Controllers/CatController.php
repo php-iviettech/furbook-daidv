@@ -7,6 +7,8 @@ use Furbook\User;
 use Furbook\Role;
 use Furbook\Cat;
 use Furbook\Breed;
+use Furbook\Post;
+use Furbook\Article;
 
 class CatController extends Controller
 {
@@ -17,9 +19,19 @@ class CatController extends Controller
      */
     public function index()
     {
-        $user = User::with('roles')->find(1);
-        $user->roles()->attach([1, 2]);
-        dd($user->roles);
+        $use = User::create([
+            'name' => 'Model event',
+            'email' => 'model.event@gmail.com',
+            'password' => '123456',
+        ]);
+        
+        dd($use);
+        
+        $article = Article::with('images')->find(1);
+        dd($article->images);
+        $post = Post::with('images')->find(1);
+        dd($post->images);
+        
         //Saving data method firstOrCreate
         $cat = Cat::firstOrCreate([
             'name' => 'Tom firstOrCreate',

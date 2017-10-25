@@ -48,4 +48,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('Furbook\Role');
     }
+
+    /**
+     * @return array
+     */
+    public function orderitems()
+    {
+        return $this->hasManyThrough('Furbook\OrderItem', 'Furbook\Order');
+    }
 }
