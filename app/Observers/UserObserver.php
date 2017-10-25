@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace Furbook\Observers;
 
 use Furbook\User;
 
@@ -14,7 +14,6 @@ class UserObserver
      */
     public function creating(User $user)
     {
-        dd($user);
         $user->password = bcrypt($user->password);
     }
 
@@ -26,7 +25,7 @@ class UserObserver
      */
     public function created(User $user)
     {
-        //
+        dd($user);
     }
 
     /**

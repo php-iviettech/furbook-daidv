@@ -3,6 +3,7 @@
 namespace Furbook\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use Furbook\User;
 use Furbook\Role;
 use Furbook\Cat;
@@ -24,9 +25,9 @@ class CatController extends Controller
             'email' => 'model.event@gmail.com',
             'password' => '123456',
         ]);
-        
+
         dd($use);
-        
+        /*
         $article = Article::with('images')->find(1);
         dd($article->images);
         $post = Post::with('images')->find(1);
@@ -73,8 +74,7 @@ class CatController extends Controller
         dd($cat);
         //retieving data
         $cat = Cat::find(1);
-        
-        
+        */
         
         $cats = Cat::all();
         return view('cats.index')->with('cats', $cats);
@@ -121,9 +121,11 @@ class CatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Cat $cat)
     {
-        $cat = Cat::find($id);
+        if(!Auth::user()->canEdit($cat)){
+            return redirect()->route('login');
+        }
         return view('cats.edit')->with('cat', $cat);
     }
 

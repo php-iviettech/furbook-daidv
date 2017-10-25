@@ -16,11 +16,13 @@ class UsersTableSeeder extends Seeder
                 'name' => 'daidv',
                 'email' => 'daidv@rikkeisoft.com',
                 'password' => bcrypt('123456'),
+                'is_admin' => false
             ],
             [
                 'name' => 'admin',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('123456'),
+                'is_admin' => true
             ]
         ]);
     }

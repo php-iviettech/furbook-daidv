@@ -2,6 +2,8 @@
 
 namespace Furbook\Providers;
 
+use Furbook\User;
+use Furbook\Observers\UserObserver;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer(
             'partials.forms.cat', 'Furbook\Http\ViewComposers\CatFormComposer'
         );
+        User::observe(UserObserver::class);
     }
 
     /**

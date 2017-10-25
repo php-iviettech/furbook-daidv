@@ -15,18 +15,20 @@ class CatsTableSeeder extends Seeder
             [
                 'name' => 'Doremon',
                 'date_of_birth' => date('Y-m-d'),
-                'breed_id' => 1
+                'breed_id' => 1,
+                'user_id' => 1
             ],
             [
                 'name' => 'Doremi',
                 'date_of_birth' => date('Y-m-d'),
-                'breed_id' => 1
+                'breed_id' => 1,
+                'user_id' => 1
             ],
             [
                 'name' => 'Black Cat',
                 'date_of_birth' => date('Y-m-d'),
-                'breed_id' => 2
-                
+                'breed_id' => 2,
+                'user_id' => 2
             ]
         ]);
     }

@@ -90,4 +90,10 @@ Route::get('cats/breeds/{name}', function ($name) {
         ->with('cats', $breed->cats);
 });
 //or use Resource controllers
-Route::resource('cats', 'CatController');
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('cats', 'CatController');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

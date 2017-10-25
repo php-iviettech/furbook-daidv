@@ -4,6 +4,7 @@ namespace Furbook;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Furbook\Cat;
 
 class User extends Authenticatable
 {
@@ -17,6 +18,11 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
     ];
+
+    protected $casts = [
+        'is_admin' => 'boolean',
+    ];
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -56,4 +62,17 @@ class User extends Authenticatable
     {
         return $this->hasManyThrough('Furbook\OrderItem', 'Furbook\Order');
     }
+
+    public function owns(Cat $cat){
+        return $this->id == $cat->user_id;
+    }
+
+    public function canEdit(Cat $cat){
+        return $this->is_admin || $this->owns($cat);
+    }
+
+    public function isAdministrator(){
+        return $this->getAttribute('is_admin');
+    }
+
 }
