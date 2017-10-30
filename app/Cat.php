@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cat extends Model
 {
     use \Illuminate\Database\Eloquent\SoftDeletes;
-    protected $fillable = ['name', 'date_of_birth', 'breed_id'];
+    protected $fillable = ['name', 'date_of_birth', 'breed_id', 'user_id'];
 
     /**
      * @return array

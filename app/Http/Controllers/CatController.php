@@ -3,13 +3,10 @@
 namespace Furbook\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Furbook\Http\Requests\CatRequest;
 use Auth;
-use Furbook\User;
-use Furbook\Role;
 use Furbook\Cat;
-use Furbook\Breed;
-use Furbook\Post;
-use Furbook\Article;
+use Validator;
 
 class CatController extends Controller
 {
@@ -20,6 +17,7 @@ class CatController extends Controller
      */
     public function index()
     {
+        /*
         $use = User::create([
             'name' => 'Model event',
             'email' => 'model.event@gmail.com',
@@ -27,7 +25,6 @@ class CatController extends Controller
         ]);
 
         dd($use);
-        /*
         $article = Article::with('images')->find(1);
         dd($article->images);
         $post = Post::with('images')->find(1);
@@ -98,6 +95,22 @@ class CatController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255|unique:cats,name',
+            'date_of_birth' => 'required|date_format:"Y-m-d"',
+            'breed_id' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('cats.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $user_id = Auth::user()->id;
+        $request->request->add(['user_id' => $user_id]);
+        //dd($request->all());
         $cat = Cat::create($request->all());
         return redirect('cats/'.$cat->id)
             ->withSuccess('Cat has been created.');
@@ -122,28 +135,25 @@ class CatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Cat $cat)
-    {
-        if(!Auth::user()->canEdit($cat)){
-            return redirect()->route('login');
-        }
+    {        
         return view('cats.edit')->with('cat', $cat);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Furbook\Http\Requests\CatRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CatRequest $request, Cat $cat)
     {
-        Cat::where('id', $id)->update([
+        $cat->update([
             'name' => $request->input('name'),
             'date_of_birth' => $request->input('date_of_birth'),
             'breed_id' => $request->input('breed_id')
         ]);
-        return redirect('cats/'. $id)
+        return redirect('cats/'. $cat->id)
             ->withSuccess('Cat has been updated.');
     }
 
