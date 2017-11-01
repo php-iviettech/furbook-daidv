@@ -26,3 +26,4 @@ Route::get('/about', function () {
     //return view('about')->with('corp', $corp);
     return view('about', compact('corp'));
 });
+//rv
