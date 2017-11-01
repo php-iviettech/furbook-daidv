@@ -97,3 +97,10 @@ Route::group(['middleware' => ['auth']], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('users', 'UserController');
+
+View::composer('users.create', function ($view) {
+    //dd(Breed::pluck('name', 'id'));
+    $view->breeds = \Furbook\Breed::pluck('name', 'id');
+});
