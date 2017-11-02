@@ -27,3 +27,4 @@ Route::get('/about', function () {
     return view('about', compact('corp'));
 });
 //rv
+//hay lam
