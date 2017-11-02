@@ -4,7 +4,7 @@ namespace Furbook;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Furbook\Cat;
+use Furbook\Notifications\FurbookResetPassword;
 
 class User extends Authenticatable
 {
@@ -73,6 +73,17 @@ class User extends Authenticatable
 
     public function isAdministrator(){
         return $this->getAttribute('is_admin');
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new FurbookResetPassword($token));
     }
 
 }
