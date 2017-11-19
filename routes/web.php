@@ -108,3 +108,5 @@ View::composer('users.create', function ($view) {
 Route::get('/money', function () {
     return view('money');
 });
+
+Route::get('addCart/{cat}', ['as' => 'cart.add', 'uses' => 'CatController@addCart']);

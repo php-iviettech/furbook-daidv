@@ -8,6 +8,7 @@ use Furbook\Http\Requests\CatRequest;
 use Auth;
 use Furbook\Cat;
 use Validator;
+use Cart;
 
 class CatController extends Controller
 {
@@ -73,9 +74,12 @@ class CatController extends Controller
         //retieving data
         $cat = Cat::find(1);
         */
-        
+        //Giá tiền chuyển đổi sang kiểu decimal
+        //dd(Cart::subtotal(0, '.', ''));
         $cats = Cat::all();
-        return view('cats.index')->with('cats', $cats);
+        $cart = Cart::content();
+        $subtotal = Cart::subtotal(0, '.', ',');
+        return view('cats.index', compact('cats', 'cart', 'subtotal'));
     }
 
     /**
@@ -179,5 +183,16 @@ class CatController extends Controller
         Cat::where('id', $id)->delete();
         return redirect('cats')
             ->withSuccess('Cat has been deleted.');
+    }
+
+    public function addCart(Cat $cat)
+    {
+        Cart::add([
+            'id' => $cat->id,
+            'name' => $cat->name,
+            'qty' => 1,
+            'price' => Common::convertDecimal($cat->price)
+        ]);
+        return redirect()->route('cats.index');
     }
 }
