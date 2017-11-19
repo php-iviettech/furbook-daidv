@@ -21,6 +21,13 @@
     </div>
 </div>
 <div class="form-group">
+    {!! Form::label('price', 'Price (VND)') !!}
+    <div class="form-controls">
+        {!! Form::text('price', null, ['class' =>
+        'form-control money']) !!}
+    </div>
+</div>
+<div class="form-group">
     {!! Form::label('breed_id', 'Breed') !!}
     <div class="form-controls">
         {!! Form::select('breed_id', @$breeds ? $breeds : [], null, ['class' => 'form-control']) !!}

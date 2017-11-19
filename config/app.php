@@ -176,6 +176,7 @@ return [
         // Furbook\Providers\BroadcastServiceProvider::class,
         Furbook\Providers\EventServiceProvider::class,
         Furbook\Providers\RouteServiceProvider::class,
+        Furbook\Providers\HelperServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
     ],

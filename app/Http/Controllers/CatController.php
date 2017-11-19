@@ -3,6 +3,7 @@
 namespace Furbook\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Furbook\Helpers\Common;
 use Furbook\Http\Requests\CatRequest;
 use Auth;
 use Furbook\Cat;
@@ -99,7 +100,16 @@ class CatController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255|unique:cats,name',
             'date_of_birth' => 'required|date_format:"Y-m-d"',
+            'price' => 'required|currency_size:1,8|regex:/^(\d{1,3})?+(?:\,[0-9]{3})?+(?:\,[0-9]{3})?$/',
             'breed_id' => 'required|numeric',
+        ],
+        [
+            'required' => 'Trường :attribute là bắt buộc.',
+            'unique' => 'Trường :attribute đã bị trùng.',
+            'numeric' => 'Trường :attribute phải là kiểu số.',
+            'date_format' => 'Trường :attribute định dạng chưa đúng kiểu "Y-m-d"',
+            'regex' => 'Trường :attribute định dạng không đúng.',
+            'currency_size' => 'Trường :attribute độ dài phải lớn hơn :min và nhỏ hơn :max.',
         ]);
 
         if ($validator->fails()) {
@@ -135,7 +145,7 @@ class CatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Cat $cat)
-    {        
+    {
         return view('cats.edit')->with('cat', $cat);
     }
 
@@ -151,6 +161,7 @@ class CatController extends Controller
         $cat->update([
             'name' => $request->input('name'),
             'date_of_birth' => $request->input('date_of_birth'),
+            'price' => $request->input('price'),
             'breed_id' => $request->input('breed_id')
         ]);
         return redirect('cats/'. $cat->id)

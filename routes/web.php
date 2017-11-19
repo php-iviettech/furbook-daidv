@@ -104,3 +104,7 @@ View::composer('users.create', function ($view) {
     //dd(Breed::pluck('name', 'id'));
     $view->breeds = \Furbook\Breed::pluck('name', 'id');
 });
+
+Route::get('/money', function () {
+    return view('money');
+});

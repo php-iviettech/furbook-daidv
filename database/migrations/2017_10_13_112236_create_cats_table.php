@@ -17,6 +17,7 @@ class CreateCatsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->date('date_of_birth');
+            $table->decimal('price', 8, 0);
             $table->integer('breed_id')->unsigned();
             $table->foreign('breed_id')->references('id')->on('breeds');
             $table->timestamps();

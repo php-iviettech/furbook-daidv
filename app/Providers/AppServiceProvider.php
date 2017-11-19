@@ -3,7 +3,8 @@
 namespace Furbook\Providers;
 
 use Furbook\User;
-use Furbook\Breed;
+use Validator;
+use Furbook\Validators\CustomValidator;
 use Furbook\Observers\UserObserver;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
 //            $view->breeds = Breed::pluck('name', 'id');
 //        });
         User::observe(UserObserver::class);
+
+        Validator::resolver(function ($translator, $data, $rules, $messages) {
+            return new CustomValidator($translator, $data, $rules, $messages);
+        });
     }
 
     /**
