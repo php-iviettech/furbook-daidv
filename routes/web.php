@@ -110,3 +110,39 @@ Route::get('/money', function () {
 });
 
 Route::get('addCart/{cat}', ['as' => 'cart.add', 'uses' => 'CatController@addCart']);
+
+/*
+|--------------------------------------------------------------------------
+| UPLOAD STORAGE
+|--------------------------------------------------------------------------
+| Lưu file có 2 trường hợp
+| 1. Lưu trong thư mục storage khi người tải file lên là user
+| ví dụ ảnh avatars của người dùng...
+| 2. Lưu trong thư mục public khi người tải file lên là admin
+| ví dụ các file liên quan đến tài nguyên hệ thống như js, css, font, hình ảnh products...
+| Ưu điểm: tên file được tự động mã hóa file, được Laravel hỗ trợ nhiều hàm
+| Ngoài ra có một số hàm khác ví dụ move(), storageAs()...tuy nhiên ko hỗ trợ mã hóa tên file
+*/
+Route::get('upload', ['as' => 'upload.index', 'uses' => 'UploadController@index']);
+Route::post('upload/avatar', ['as' => 'upload.userAvatar', 'uses' => 'UploadController@uploadAvatar']);
+Route::post('upload/product', ['as' => 'upload.productImage', 'uses' => 'UploadController@uploadProduct']);
+
+// Hỗ trợ lấy file trong thư mục storage bằng hàm asset
+Route::get('avatars/{filename}', function ($filename) {
+    $path = 'avatars/' . $filename;
+
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404);
+    }
+
+    $file = Storage::disk('public')->get($path);
+    $type = Storage::disk('public')->mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header('Content-Type', $type);
+
+    return $response;
+});
+
+Route::get('delete/user-avatar', ['as' => 'delete.userAvatar', 'uses' => 'UploadController@deleteUserAvatar']);
+Route::get('delete/product-image', ['as' => 'delete.productImage', 'uses' => 'UploadController@deleteProductImage']);
