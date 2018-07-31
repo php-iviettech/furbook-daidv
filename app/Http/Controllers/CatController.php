@@ -143,7 +143,18 @@ class CatController extends Controller
      */
     public function destroy($id)
     {
+        // Delete cat
         Cat::where('id', $id)->delete();
+
+        // Remove cat from shopping cart
+        $cart = Cart::content();
+        foreach ($cart as $item) {
+            if ($item->id == $id) {
+                Cart::remove($item->rowId);
+            }
+        }
+
+        // Redirect page list cat
         return redirect()
             ->route('cats.index')
             ->withSuccess('Cat has been deleted.');
