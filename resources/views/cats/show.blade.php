@@ -8,7 +8,7 @@
         <span class="glyphicon glyphicon-edit"></span>
         Edit
     </a>
-    <form action="{{ url('cats/'.$cat->id) }}" method="POST">
+    <form action="{{ url('cats/'.$cat->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
         <input type="hidden" name="_method" value="DELETE">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <button class="btn btn-danger">

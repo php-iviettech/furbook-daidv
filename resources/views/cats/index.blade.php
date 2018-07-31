@@ -5,7 +5,7 @@
         <a href="{{ url('/') }}">Back to overview</a>
     @endif
     <h2>
-        All @if (isset($breed)) {{ $breed->name }} @endif Cats
+        All @if (isset($breed)) <span class="text-danger">{{ $breed->name }}</span> @endif Cats
         <a href="{{ url('cats/create') }}" class="btn btn-primary pull-right">Add a new cat</a>
     </h2>
 @endsection
@@ -31,15 +31,6 @@
             @endforeach
         </table>
     </div>
-    @foreach($cats as $cat)
-        <div class="cat">
-            <a href="{{ url('cats/' . $cat->id) }}">
-                <strong>{{ $cat->name }}</strong> -
-                {{ $cat->breed->name }}
-            </a>
-            <a href="{{ route('cart.add', $cat->id) }}">
-              <span class="glyphicon glyphicon-shopping-cart"></span>
-            </a>
-        </div>
-    @endforeach
+
+    @include('partials.cat')
 @endsection

@@ -15,70 +15,31 @@ class CatController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        /*
-        $use = User::create([
-            'name' => 'Model event',
-            'email' => 'model.event@gmail.com',
-            'password' => '123456',
-        ]);
+        // Saving data method firstOrCreate
+        // Saving data method create
+        // Saving data method update
 
-        dd($use);
-        $article = Article::with('images')->find(1);
-        dd($article->images);
-        $post = Post::with('images')->find(1);
-        dd($post->images);
-        
-        //Saving data method firstOrCreate
-        $cat = Cat::firstOrCreate([
-            'name' => 'Tom firstOrCreate',
-            'date_of_birth' => date('Y-m-d'),
-            'breed_id' => 1,
-            'description' => 'Meo tom firstOrCreate'
-        ]);
-        dd($cat);
-        //Saving data by model instance
-        $cat = Cat::find(1);
-        $cat->name = 'Tom model instance';
-        $cat->description = 'Meo tom model instance';
-        $cat->save();
-        dd($cat);
-        //Saving data method create
-        $cat = Cat::create([
-            'name' => 'Tom create',
-            'date_of_birth' => date('Y-m-d'),
-            'breed_id' => 1,
-            'description' => 'Meo tom create'
-        ]);
-        dd($cat);
-        //Saving data method update
-        $cat = Cat::find(1);
-        $cat->update([
-            'name' => 'Tom create',
-            'date_of_birth' => date('Y-m-d'),
-            'breed_id' => 1,
-            'description' => 'Meo tom create'
-        ]);
-        dd($cat);
-        //Saving data method insert
-        $cat = Cat::insert([
-            'name' => 'Tom insert',
-            'date_of_birth' => date('Y-m-d'),
-            'breed_id' => 1,
-            'description' => 'Meo tom insert'
-        ]);
-        dd($cat);
-        //retieving data
-        $cat = Cat::find(1);
-        */
+        // Saving data by model instance
+        // Saving data method insert
+
         //Giá tiền chuyển đổi sang kiểu decimal
         //dd(Cart::subtotal(0, '.', ''));
-        $cats = Cat::all();
         $cart = Cart::content();
         $subtotal = Cart::subtotal(0, '.', ',');
+
+        // Define per page
+        $perPage = 5;
+        $cats = Cat::orderBy('created_at', 'DESC')->paginate($perPage);
+        // Check request is ajax
+        if ($request->ajax()) {
+            return view('partials.cat')->with('cats', $cats);
+        }
+        // Request not ajax
         return view('cats.index', compact('cats', 'cart', 'subtotal'));
     }
 
@@ -126,7 +87,8 @@ class CatController extends Controller
         $request->request->add(['user_id' => $user_id]);
         //dd($request->all());
         $cat = Cat::create($request->all());
-        return redirect('cats/'.$cat->id)
+        return redirect()
+            ->route('cats.show', $cat->id)
             ->withSuccess('Cat has been created.');
     }
 
@@ -139,7 +101,7 @@ class CatController extends Controller
     public function show($id)
     {
         $cat = Cat::find($id);
-        return view('cats.show') ->with('cat', $cat);
+        return view('cats.show')->with('cat', $cat);
     }
 
     /**
@@ -168,7 +130,8 @@ class CatController extends Controller
             'price' => $request->input('price'),
             'breed_id' => $request->input('breed_id')
         ]);
-        return redirect('cats/'. $cat->id)
+        return redirect()
+            ->route('cats.show', $cat->id)
             ->withSuccess('Cat has been updated.');
     }
 
@@ -181,7 +144,8 @@ class CatController extends Controller
     public function destroy($id)
     {
         Cat::where('id', $id)->delete();
-        return redirect('cats')
+        return redirect()
+            ->route('cats.index')
             ->withSuccess('Cat has been deleted.');
     }
 

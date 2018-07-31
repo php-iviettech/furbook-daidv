@@ -33,6 +33,9 @@ class Common
 
     public static function convertDecimal($str)
     {
+        if ($str == '') {
+            return '';
+        }
         $number = str_replace(
             array('.', ','),
             array('', ''),

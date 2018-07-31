@@ -45,7 +45,7 @@ class CatRequest extends FormRequest
             case 'PATCH':
                 $cat = $this->route('cat');
                 return [
-                    'name' => 'max:255|unique:cats,name,' . $cat->id,
+                    'name' => 'required|max:255|unique:cats,name,' . $cat->id,
                     'date_of_birth' => 'date_format:"Y-m-d"',
                     'price' => 'currency_size:1,8|regex:/^(\d{1,3})?+(?:\,[0-9]{3})?+(?:\,[0-9]{3})?$/',
                     'breed_id' => 'numeric',

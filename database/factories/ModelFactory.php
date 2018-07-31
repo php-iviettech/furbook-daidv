@@ -22,3 +22,22 @@ $factory->define(Furbook\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(Furbook\Breed::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'created_at' => $faker->dateTime(),
+        'updated_at' => $faker->dateTime()
+    ];
+});
+
+$factory->define(Furbook\Cat::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'date_of_birth' => $faker->date(),
+        'price' => $faker->numberBetween(100, 900),
+        'user_id' => 1,
+        'created_at' => $faker->dateTime(),
+        'updated_at' => $faker->dateTime()
+    ];
+});

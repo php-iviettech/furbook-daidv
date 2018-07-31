@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return 'All cats';
+    return redirect()->route('cats.index');
 });
 
 Route::get('/about', function () {
@@ -82,10 +82,14 @@ Route::delete('cats/{cat}', function (Furbook\Cat $cat) {
 */
 //Breeds
 Route::get('cats/breeds/{name}', function ($name) {
+    $cart = Cart::content();
+    $subtotal = Cart::subtotal(0, '.', ',');
     $breed = Furbook\Breed::with('cats')
         ->whereName($name)
         ->first();
     return view('cats.index')
+        ->with('cart', $cart)
+        ->with('subtotal', $subtotal)
         ->with('breed', $breed)
         ->with('cats', $breed->cats);
 });

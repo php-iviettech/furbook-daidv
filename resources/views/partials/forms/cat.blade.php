@@ -16,15 +16,13 @@
 <div class="form-group">
     {!! Form::label('date_of_birth', 'Date of Birth') !!}
     <div class="form-controls">
-        {!! Form::date('date_of_birth', null, ['class' =>
-        'form-control']) !!}
+        {!! Form::text('date_of_birth', null, ['class' => 'form-control datepicker', 'autocomplete' => 'off']) !!}
     </div>
 </div>
 <div class="form-group">
     {!! Form::label('price', 'Price (VND)') !!}
     <div class="form-controls">
-        {!! Form::text('price', null, ['class' =>
-        'form-control money']) !!}
+        {!! Form::text('price', null, ['class' => 'form-control money']) !!}
     </div>
 </div>
 <div class="form-group">
