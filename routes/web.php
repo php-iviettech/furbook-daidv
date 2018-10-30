@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect()->route('cats.index');
+    return view('welcome');
 });
 
 Route::get('/about', function () {
@@ -150,3 +150,5 @@ Route::get('avatars/{filename}', function ($filename) {
 
 Route::get('delete/user-avatar', ['as' => 'delete.userAvatar', 'uses' => 'UploadController@deleteUserAvatar']);
 Route::get('delete/product-image', ['as' => 'delete.productImage', 'uses' => 'UploadController@deleteProductImage']);
+
+Route::resource('products', 'ProductController');
