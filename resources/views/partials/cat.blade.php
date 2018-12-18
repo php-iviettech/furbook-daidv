@@ -37,23 +37,24 @@
         <div class="text-center">
             {{$cats->links()}}
         </div>
-
-        <script type="application/javascript">
-            $(function () {
-                $('a.page-link').click(function (e) {
-                    // Disabled redirect page
-                    e.preventDefault();
-                    // Get url from attribute href of tag a
-                    var url = $(this).attr('href');
-                    // Create request
-                    $.get(url, function (response) {
-                        $('#list-cats').replaceWith(response);
-                    });
-                    // User load ajax
-                    //$('#list-cats').load(url);
-                });
-            });
-        </script>
     @endif
 
 </div>
+@section('js')
+    <script type="application/javascript">
+        $(function () {
+            $('.pagination a').click(function (e) {
+                // Disabled redirect page
+                e.preventDefault();
+                // Get url from attribute href of tag a
+                var url = $(this).attr('href');
+                // Create request
+                $.get(url, function (response) {
+                    $('#list-cats').replaceWith(response);
+                });
+                // User load ajax
+                //$('#list-cats').load(url);
+            });
+        });
+    </script>
+@stop
