@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
@@ -18,6 +19,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'user',
                 'email' => 'user@gmail.com',
                 'password' => bcrypt('123456'),
+                'api_token' => Str::random(60),
                 'is_admin' => false,
                 'created_at' => $currentTime,
                 'updated_at' => $currentTime
@@ -27,6 +29,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'admin',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('123456'),
+                'api_token' => Str::random(60),
                 'is_admin' => true,
                 'created_at' => $currentTime,
                 'updated_at' => $currentTime
@@ -36,6 +39,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'super.admin',
                 'email' => 'super.admin@gmail.com',
                 'password' => bcrypt('123456'),
+                'api_token' => Str::random(60),
                 'is_admin' => true,
                 'created_at' => $currentTime,
                 'updated_at' => $currentTime

@@ -23,6 +23,15 @@ class CategoryController extends Controller
                 'name' => $category->name,
             ];
         }
+        
+        //Đây là cách chung chung để trả về một phản hồi HTTP.
+        //nếu $response là một array hoặc object, laravel tự động gọi json_encode() và trả về JSON.
+        //return response($response, 200);//content-type: application/json
+        //return response('Hello World', 200);//content-type: text/html
+        
+        //Đây là cách chuyên dụng để trả về phản hồi JSON.
+        //Laravel sẽ tự động đặt header Content-Type: application/json.
+        //Dữ liệu $response sẽ được tự động mã hóa JSON.
         return response()->json($response, 200);
     }
 

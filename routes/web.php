@@ -94,7 +94,7 @@ Route::get('cats/breeds/{name}', function ($name) {
         ->with('cats', $breed->cats);
 });
 //or use Resource controllers
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::resource('cats', 'CatController');
 });
 
@@ -131,7 +131,16 @@ Route::get('upload', ['as' => 'upload.index', 'uses' => 'UploadController@index'
 Route::post('upload/avatar', ['as' => 'upload.userAvatar', 'uses' => 'UploadController@uploadAvatar']);
 Route::post('upload/product', ['as' => 'upload.productImage', 'uses' => 'UploadController@uploadProduct']);
 
-// Hỗ trợ lấy file trong thư mục storage bằng hàm asset
+// nếu file trong thư mục public thì có thể hiển thị được, còn storage thì ko.
+// cách 1. run command "php artisan storage:link", which links these 2 directories together:
+// "/storage/app/public" symlinked to "/public/storage"
+// Now any file in /storage/app/public can be accessed via a link like:
+// http://somedomain.com/storage/avatars/image.jpg
+// cách 2. thêm route hỗ trợ lấy file trong thư mục storage, 
+// hạn chế là url phải khớp vs regex; khó hỗ trợ nested nhiều folder vd
+// "avatars/image.jpg" OK
+// "avatars/sub/image.jpg" 404
+// -> nên dùng cách 1 ok hơn, 
 Route::get('avatars/{filename}', function ($filename) {
     $path = 'avatars/' . $filename;
 
